@@ -5,6 +5,8 @@ from Shuffle import shuffle
 import statistics
 import numpy as np
 
+""" Funzione che confronta le euristiche Manhattan e Linear Conflicts ed il numero di celle errate 
+    applicate all'algoritmo A* bidirezionale. Il grafico mostra il numero di stati esplorati nei 3 casi."""
 
 def test():
     x = []
@@ -22,11 +24,11 @@ def test():
         x.append(shuf)
         initial_state = shuffle(problem, x[i])
         problem = FifteenPuzzle(initial_state)
-        path, explored_states = astar_search(problem, problem.h, False)
+        path, explored_states = astar_search(problem, problem.h)
         path_wrong.append(len(path))
         explored_wrong.append(explored_states)
         problem = FifteenPuzzle(initial_state, 'man')
-        path, explored_states = astar_search(problem, problem.h, False)
+        path, explored_states = astar_search(problem, problem.h)
         path_man.append(len(path))
         explored_man.append(explored_states)
         problem = FifteenPuzzle(initial_state, 'LinC')

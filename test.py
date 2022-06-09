@@ -6,6 +6,11 @@ from Shuffle import shuffle
 import statistics
 import numpy as np
 
+""" Funzione che confronta gli algoritmi A* e A* bidirezionale utilizzando le euristiche Manhattan e Linear Conflicts.
+    Il grafico mostra il numero di stati esplorati nei quattro casi. Il codice commentato consente
+    di ottenere un ulteriore grafico che mostra la lunghezza delle soluzioni nei 4 casi a conferma
+    dell'ottimalità dei due algoritmi"""
+
 
 def test():
     x = []
@@ -25,7 +30,7 @@ def test():
             x.append(shuf)
         initial_state = shuffle(problem, shuf)
         problem = FifteenPuzzle(initial_state, 'man')
-        path, explored_states = astar_search(problem, problem.h, False)
+        path, explored_states = astar_search(problem, problem.h)
         path_man.append(len(path))
         print(path)
         explored_man.append(explored_states)

@@ -2,7 +2,7 @@ from FifteenPuzzleProblem import Node
 from PriorityQueue import PriorityQueue
 
 
-def best_first_search(problem, f, display=False):
+def best_first_search(problem, f):
     node = Node(problem.initial)
     frontier = PriorityQueue('min', f)
     frontier.append(node)
@@ -10,8 +10,6 @@ def best_first_search(problem, f, display=False):
     while frontier:
         node = frontier.pop()
         if problem.goal_test(node.state):
-            if display:
-                print(len(explored), "paths have been expanded and", len(frontier), "paths remain in the frontier")
             return node.path(), len(explored)
         explored.add(node.state)
         for child in node.expand(problem):
@@ -24,8 +22,8 @@ def best_first_search(problem, f, display=False):
     return None
 
 
-def astar_search(problem, h=None, display=False):
+def astar_search(problem, h=None):
     if problem.check_solvability(problem.initial):
-        return best_first_search(problem, lambda n: n.path_cost + h(n), display)
+        return best_first_search(problem, lambda n: n.path_cost + h(n))
     return None, 0
 

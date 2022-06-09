@@ -5,6 +5,8 @@ from Shuffle import shuffle
 import statistics
 import numpy as np
 
+""" Funzione che confronta le euristiche Manhattan e Linear Conflicts ed il numero di celle errate 
+    applicate all'algoritmo A*. Il grafico mostra il numero di stati esplorati nei 3 casi."""
 
 def test():
     x = []

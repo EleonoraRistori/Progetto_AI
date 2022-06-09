@@ -6,6 +6,10 @@ from Shuffle import shuffle
 import statistics
 import numpy as np
 
+""" Funzione che confronta gli algoritmi A* e A* bidirezionale utilizzando l'euristica Manhattan + Linear Conflicts.
+    Il primo grafico in output mostra il numero di stati esplorati due casi, il secondo mostra la lunghezza delle 
+    soluzioni nei 2 casi a conferma dell'ottimalità dei due algoritmi"""
+
 
 def test():
     x = []

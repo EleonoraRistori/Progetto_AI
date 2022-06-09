@@ -23,30 +23,16 @@ def biBF_search(problemF, f):
         else:
             solution = proceed(2, lambda n: n.path_cost + problemB.h(n), problemB, frontierB, reachedB, reachedF, solution)
         explored += 1
-    solution = terminated(solution, frontierF, frontierB, problemF, problemB, reachedF, reachedB, f,lambda n: n.path_cost + problemB.h(n))
+    solution = terminated(solution, frontierF, frontierB, problemF, problemB, reachedF, reachedB, f, lambda n: n.path_cost + problemB.h(n))
     return solution, explored
 
 
 def proceed(dir, f, problemF, frontierF, reachedF, reachedB, solution):
     node = frontierF.pop()
-    if problemF.goal_test(node.state):
-        if solution is not None:
-            if len(node.path()) < len(solution):
-                return node.path()
-            else:
-                return solution
-        else:
-            return node.path()
     for child in node.expand(problemF):
         if child.state in reachedB:
             pathAdapted = adaptPath(dir, child, reachedB, problemF)
-            if solution is not None:
-                if len(pathAdapted) < len(solution):
-                    return pathAdapted
-                else:
-                    return solution
-            else:
-                return pathAdapted
+            return pathAdapted
         if child.state not in reachedF and child not in frontierF:
             reachedF[child.state] = child
             frontierF.append(child)
