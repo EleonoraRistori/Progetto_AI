@@ -19,15 +19,15 @@ def biBF_search(problemF, f):
     solution = None
     while solution is None:
         if frontierF.top() < frontierB.top():
-            solution = proceed(1, f, problemF, frontierF, reachedF, reachedB, solution)
+            solution = proceed(1, f, problemF, frontierF, reachedF, reachedB)
         else:
-            solution = proceed(2, lambda n: n.path_cost + problemB.h(n), problemB, frontierB, reachedB, reachedF, solution)
+            solution = proceed(2, lambda n: n.path_cost + problemB.h(n), problemB, frontierB, reachedB, reachedF)
         explored += 1
     solution = terminated(solution, frontierF, frontierB, problemF, problemB, reachedF, reachedB, f, lambda n: n.path_cost + problemB.h(n))
     return solution, explored
 
 
-def proceed(dir, f, problemF, frontierF, reachedF, reachedB, solution):
+def proceed(dir, f, problemF, frontierF, reachedF, reachedB):
     node = frontierF.pop()
     for child in node.expand(problemF):
         if child.state in reachedB:
