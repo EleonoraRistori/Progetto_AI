@@ -1,11 +1,12 @@
 #Algoritmo A* per la ricerca della soluzione nel 15-puzzle
-Il programma si articola in 8 file .py ciascuno con una diversa responsabilità. Il file **main.py** 
-è quello che deve essere eseguito per ottenere i risultati mostrati nella relazione.
+Il programma si articola in 11 file .py ciascuno con una diversa responsabilità. I file **test.py**, 
+**testAstar.py**, **testHeuristicsMonodirectionalAstar.py**, **testHeuristicsBidirectionalAstar.py**
+sono quelli da eseguire per ottenere i risultati mostrati nella relazione.
 ###FifteenPuzzleProblem.py
 Contiene le strutture dati necessarie alla risoluzone del 15-puzzle.
 ####FifteenPuzzle
 Definisce il problema vero e proprio mantenendo come attributi 
-gli stati iniziali e finali e l'euristica prescelta per la ricerca della
+gli stati iniziale e finale e l'euristica prescelta per la ricerca della
 soluzione. I suoi metodi principali sono:
 1. **actions()** che restituisce la lista di operazioni possibili dato uno stato
 2. **result()** che dato uno stato ed un azione restituisce lo stato ottenuto applicando 
@@ -17,10 +18,10 @@ alla soluzione
 
 ####Node
 È la classe che mantiene le informazioni di uno stato: lo stato vero e proprio, il suo predecessore
-e l'azione con cui si è ottenuto, ed infine il path_cost dallo stato iniziale al nodo dato.
+e l'azione con cui si è ottenuto ed infine il path_cost dallo stato iniziale al nodo dato.
 1. **expand()** è il metodo che restituisce l'insieme dei possibili nodi raggiunti dato il problema
 ed uno stato di partenza.
-2. **child_node()** che restituisce un nuovo nodo ottenuto applicando l'azione data al nodo 
+2. **child_node()** restituisce un nuovo nodo ottenuto applicando l'azione data 
 3. **path()** restituisce il percorso dalla radice al nodo dato
 
 ###ManhattanDistance.py
@@ -46,12 +47,27 @@ Contiene la funzione per effettuare lo shuffle di uno stato in input di un numer
 ###Astar.py
 Contiene l'algoritmo A* nella sua forma unidirezionale. **astar_search()** riceve in input il 
 problema, ne controlla la risolvibilità ed invoca il metodo **best_first_search()** fornenendo come
-funzione di valutazione il path_cost + l'euristica del problema.
+funzione di valutazione il path_cost + l'euristica del problema. La funzione best_first_search() inizia ad espandere il nodo
+iniziale e da esso i suoi figli andando ad ogni iterazione a controllare se il goal è stato raggiunto e in caso contrario procedendo
+con l'espansione dei nodi aggiungendo alla frontiera (la lista dei nodi da espandere) quei nodi non ancora esplorati
+o che sono stati raggiunti attraverso un percorso più breve.
 
 ###BidirectionalAstar.py
 Contiene l'algoritmo A* nella forma bidirezionale.
 Come nel caso unidirezionale la funzione astar_bidirectional_search(), dopo aver controllato la risolvibilità
-del problema invoca il metodo biBF_search() che implementa la ricerca bidirezionale. Dopo aver creato [...]
+del problema invoca il metodo biBF_search() che implementa la ricerca bidirezionale. Dopo aver creato un nuovo problema 
+con gli stati iniziale e finale invertiti (quindi con due frontiere e due tabelle in cui si memorizzano i nodi raggiunti 
+da ciascuna ricerca), ad ogni iterazione viene scelta la frontiera da espandere sulla base dell'euristica fornita. Viene 
+quindi eseguita la funzione proceed() che, in primo luogo, controlla se le due ricerche si siano incontrate, accedendo 
+alla lista contenente i nodi raggiunti dalla ricerca parallela. Se ciò si verifica, viene restituito l'output della funzione adaptPath(),
+cioè il cammino dalla radice fino al goal (La funzione semplicemente ricava il percorso invertendo quello 
+della ricerca diretta ed aggiungendo in coda quello della ricerca inversa). In caso contrario, il nodo viene espanso ed 
+i figli vengono aggiunti alla frontiera se è la prima volta che sono stati raggiunti (e in tal caso anche all'insieme dei nodi raggiunti) 
+o se il costo stimato dall'euristica risulta minore di quello calcolato in precedenza per quello stato raggiunto attraverso un diverso percorso.
+Infine viene eseguita la funzione terminated() che garantisce l'ottimalità dell'algoritmo andando sviluppare tutti i 
+percorsi nelle due frontiere F e B che abbiano un costo stimato da f(n) inferiore alla lunghezza della soluzione trovata.
+Se viene così trovata una soluzione migliore di quella restituita da proceed() viene modificata la variabile solution che 
+è ritornata come soluzione dall'algoritmo.
 
 ###testHeuristicsMonodirectionalAstar.py
 Se eseguito, restituisce il grafico che analizza il numero di stati esplorati dall'algoritmo A* sfruttando 3 
